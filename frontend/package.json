@@ -1,20 +1,23 @@
 {
-  "name": "wedding-rsvp-frontend",
+  "name": "gender-reveal-rsvp-frontend",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "vue": "^3.4.0",
-    "vue-router": "^4.3.0",
-    "qrcode.vue": "^3.4.1"
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.0",
-    "vite": "^5.4.0"
+    "vite": "^5.4.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^15.14.0"
   }
 }

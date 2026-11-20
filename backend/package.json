@@ -1,11 +1,18 @@
 {
-  "name": "wedding-rsvp-backend",
+  "name": "gender-reveal-rsvp-backend",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "node --watch server.js",
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "build": "node --check server.js && node --check src/app.js && node --check src/controllers/adminController.js && node --check src/controllers/rsvpController.js && node --check src/lib/supabase.js && node --check src/middleware/adminAuth.js && node --check src/middleware/rateLimit.js && node --check src/middleware/validateRsvp.js && node --check src/routes/admin.js && node --check src/routes/rsvp.js && node --check src/services/rsvpService.js && node --check 'api/[...route].js'",
+    "lint": "eslint .",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",

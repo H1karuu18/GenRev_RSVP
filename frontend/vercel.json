@@ -1,7 +1,6 @@
 {
   "routes": [
     { "handle": "filesystem" },
-    { "src": "^/share$", "dest": "/share.html" },
     { "src": "/.*", "dest": "/index.html" }
   ]
 }

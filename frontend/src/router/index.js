@@ -1,35 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LandingPage from '../views/LandingPage.vue'
-import MainPage from '../views/MainPage.vue'
-import RsvpPage from '../views/RsvpPage.vue'
+import RsvpPage from '../pages/RsvpPage.vue'
+import ThankYouPage from '../pages/ThankYouPage.vue'
+import AdminPage from '../pages/AdminPage.vue'
 
-const routes = [
-  {
-    path: '/',
-    name: 'Landing',
-    component: LandingPage,
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: MainPage,
-  },
-  {
-    path: '/rsvp',
-    name: 'RSVP',
-    component: RsvpPage,
-  },
-]
-
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
-      return { el: to.hash, behavior: 'smooth' }
-    }
-    return { top: 0, behavior: 'smooth' }
-  },
+  routes: [
+    { path: '/', name: 'rsvp', component: RsvpPage },
+    { path: '/thank-you', name: 'thank-you', component: ThankYouPage },
+    { path: '/admin', name: 'admin', component: AdminPage },
+  ],
 })
-
-export default router
