@@ -5,9 +5,9 @@ A mobile-first RSVP site for a gender reveal party. The Vue 3 frontend communica
 ## Project structure
 
 ```text
-frontend/                 Vue 3 + Vite RSVP, confirmation, and admin pages
-  src/config/event.js     Local placeholder event details
-  src/pages/              RSVP, thank-you, and admin pages
+frontend/                 Vue 3 + Vite landing, invitation, confirmation, and admin pages
+  src/config/event.js     Local event details, parents' message, and ultrasound images
+  src/pages/              Landing, celebration, RSVP, thank-you, and admin pages
   src/services/api.js     Backend API client
   src/styles/             Responsive design system
 backend/                  Express API, deployable as Vercel serverless functions
@@ -30,8 +30,7 @@ Prerequisites: Node.js 20+ and npm.
    ```sh
    cd backend
    npm install
-   cp .env.example .env
-   # Fill in the Supabase URL, service-role key, and a private admin password.
+   # Create backend/.env with the variables listed below.
    npm run dev
    ```
 
@@ -46,7 +45,7 @@ Prerequisites: Node.js 20+ and npm.
    ```
 
    The site runs at `http://localhost:3000`. Vite proxies `/api` requests to the local backend.
-4. Update the single row in Supabase `public.event_settings`. For example:
+4. Edit parent names, the landing-page last name, parents' message, gallery captions/image paths, and placeholder event details in `frontend/src/config/event.js`. Update the single row in Supabase `public.event_settings` for deployed event information. For example:
 
    ```sql
    update public.event_settings
@@ -81,7 +80,7 @@ Prerequisites: Node.js 20+ and npm.
 | --- | --- | --- |
 | `VITE_API_URL` | No locally; yes in deployment | Backend origin, such as `https://your-api.vercel.app`; do not include `/api` |
 
-Only `.env.example` files belong in source control. Never put Supabase credentials in the frontend.
+Keep local `.env` files out of source control. Never put Supabase credentials in the frontend.
 
 ## API
 
@@ -93,13 +92,21 @@ Only `.env.example` files belong in source control. Never put Supabase credentia
 
 Admin requests use `Authorization: Bearer <ADMIN_PASSWORD>`. The `/admin` page prompts for this password and keeps it in memory while loading the dashboard. RSVP fields are validated by the backend, duplicate email addresses receive HTTP 409, and requests to `POST /api/rsvp` are rate-limited.
 
-The RSVP form collects name and email (required), phone, attendance, guest count (1–10 when attending), team guess, dietary notes, and a message. Declined responses are stored with a guest count of zero. Dashboard totals distinguish RSVP responses from the total number of attending guests.
+The RSVP form collects full name, email, attendance, guest count (1–10 when attending), and team guess; phone and a message are optional. Declined responses are stored with a guest count of zero. Dashboard totals distinguish RSVP responses from the total number of attending guests.
+
+## Invitation flow and images
+
+- `/` is the cover page with **Open Invitation** and **RSVP Now** buttons.
+- `/celebrate` contains the parents' message, ultrasound gallery, event information, and RSVP form.
+- `/thank-you` confirms a submitted RSVP; `/admin` is the private guest list.
+- Add ultrasound files to `frontend/public/images/ultrasound/` and use their public paths in `ultrasoundImages` in `frontend/src/config/event.js` (for example, `/images/ultrasound/ultrasound-1.jpg`). Replace the sample entries or add more with `src`, `alt`, and `caption`. The gallery shows a friendly placeholder when a file is absent. Resize/compress images before adding them; avoid unnecessarily large originals.
+- Edit the short parents' message and event detail defaults in `frontend/src/config/event.js`. Database event details take precedence when available; the parents' message and gallery are configured in the frontend.
 
 ## Deploy
 
-1. **Create Supabase project:** create a project, open SQL Editor, and run [`supabase/schema.sql`](./supabase/schema.sql). Add the parents, date, time, venue, address, RSVP deadline, and dress code to the single `event_settings` row.
+1. **Create Supabase project:** create a project, open SQL Editor, and run [`supabase/schema.sql`](./supabase/schema.sql). If the RSVP table already exists, also run the supplied SQL migration in `supabase/migrations/`. Add the parents, date, time, venue, address, RSVP deadline, and dress code to the single `event_settings` row.
 2. **Deploy the backend:** create a Vercel project connected to this repository and set its Root Directory to `backend`. Add `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`, and `ALLOWED_ORIGIN` to the backend project's environment variables. Set `ALLOWED_ORIGIN` to the final frontend origin. Deploy and note the backend URL.
 3. **Deploy the frontend:** create a second Vercel project for this repository and set its Root Directory to `frontend`. Add `VITE_API_URL` with the deployed backend origin (without `/api`), then deploy.
-4. Confirm the frontend URL exactly matches the backend's `ALLOWED_ORIGIN`, and test a guest RSVP and `/admin`.
+4. Confirm the frontend URL exactly matches the backend's `ALLOWED_ORIGIN`, and test a guest RSVP and `/admin`. The pages are responsive and support modern mobile browsers; use an HTTPS backend URL for the deployed site. The service-role key and admin password stay in backend environment settings, never in the frontend.
 
 Run `npm run build`, `npm run lint`, and `npm test` from `backend/` to verify the API. Run `npm run lint` and `npm run build` from `frontend/` to verify the UI.

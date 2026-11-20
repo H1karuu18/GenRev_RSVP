@@ -1,7 +1,7 @@
 <template>
-  <main class="app-shell">
+  <div class="app-shell">
     <router-view />
-  </main>
+  </div>
 </template>
 
 <style>

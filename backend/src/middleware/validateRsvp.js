@@ -39,7 +39,6 @@ export function validateRsvp(body) {
     attending,
     guest_count: guestCount,
     team,
-    dietary_notes: cleanString(body?.dietaryNotes, 'Dietary restrictions', 500),
     message: cleanString(body?.message, 'Message', 1000),
   }
 }

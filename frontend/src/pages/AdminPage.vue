@@ -1,11 +1,11 @@
 <template>
-  <div class="page">
+  <main class="page">
     <header class="admin-header">
       <div>
         <p class="eyebrow">Private dashboard</p>
         <h1>Guest list</h1>
       </div>
-      <RouterLink class="button secondary" to="/">View invitation</RouterLink>
+      <RouterLink class="button secondary" to="/celebrate">View invitation</RouterLink>
     </header>
 
     <section v-if="!password" class="panel">
@@ -41,20 +41,20 @@
         <div v-else class="table-wrap">
           <table>
             <thead>
-              <tr><th>Name</th><th>Email</th><th>Phone</th><th>Attending</th><th>Guests</th><th>Team</th><th>Dietary notes</th><th>Message</th></tr>
+              <tr><th>Name</th><th>Email</th><th>Phone</th><th>Attending</th><th>Guests</th><th>Team</th><th>Message</th></tr>
             </thead>
             <tbody>
               <tr v-for="rsvp in filteredRsvps" :key="rsvp.id">
                 <td>{{ rsvp.full_name }}</td><td>{{ rsvp.email }}</td><td>{{ rsvp.phone || '—' }}</td><td>{{ rsvp.attending }}</td><td>{{ rsvp.guest_count }}</td>
-                <td>{{ teamLabel(rsvp.team) }}</td><td>{{ rsvp.dietary_notes || '—' }}</td><td>{{ rsvp.message || '—' }}</td>
+                <td>{{ teamLabel(rsvp.team) }}</td><td>{{ rsvp.message || '—' }}</td>
               </tr>
-              <tr v-if="filteredRsvps.length === 0"><td colspan="8" class="muted">No matching responses.</td></tr>
+              <tr v-if="filteredRsvps.length === 0"><td colspan="7" class="muted">No matching responses.</td></tr>
             </tbody>
           </table>
         </div>
       </section>
     </template>
-  </div>
+  </main>
 </template>
 
 <script setup>

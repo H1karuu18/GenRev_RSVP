@@ -27,7 +27,7 @@ function csvCell(value) {
 export async function exportRsvps(_req, res) {
   try {
     const rows = await listRsvps()
-    const columns = ['full_name', 'email', 'phone', 'attending', 'guest_count', 'team', 'dietary_notes', 'message', 'created_at']
+    const columns = ['full_name', 'email', 'phone', 'attending', 'guest_count', 'team', 'message', 'created_at']
     const csv = [
       columns.map(csvCell).join(','),
       ...rows.map((row) => columns.map((column) => csvCell(row[column])).join(',')),

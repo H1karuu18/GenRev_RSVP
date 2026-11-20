@@ -38,7 +38,6 @@ create table if not exists public.rsvps (
   attending      attendance_status not null,
   guest_count    int not null default 1 check (guest_count between 0 and 10),
   team           team_guess not null default 'undecided',
-  dietary_notes  text check (char_length(dietary_notes) <= 500),
   message        text check (char_length(message) <= 1000),
   created_at     timestamptz not null default now(),
   updated_at     timestamptz not null default now()

@@ -18,7 +18,6 @@ test('validates and normalizes a complete attending RSVP', () => {
     attending: 'yes',
     guest_count: 2,
     team: 'boy',
-    dietary_notes: null,
     message: null,
   })
 })
